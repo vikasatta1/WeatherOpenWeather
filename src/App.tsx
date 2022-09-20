@@ -1,20 +1,21 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import axios from 'axios'
 import './index.css';
+
 type dataResponce = {
-    base:string,
-    clouds: {all: number},
+    base: string,
+    clouds: { all: number },
     cod: number,
-    coord: {lon: number, lat: number},
-    dt:number,
+    coord: { lon: number, lat: number },
+    dt: number,
     id: number,
     main: any,
-    name:string,
-    sys: {type: number, id: number, country: string, sunrise: number, sunset: number},
+    name: string,
+    sys: { type: number, id: number, country: string, sunrise: number, sunset: number },
     timezone: number,
-    visibility:number,
-    weather:Array<any>
-    wind: {speed: number, deg: number}
+    visibility: number,
+    weather: Array<any>
+    wind: { speed: number, deg: number }
 }
 
 function App() {
@@ -39,8 +40,6 @@ function App() {
         }
     }
 
-let celcia = (+(data?.main.feels_like) - 32) / 1.8000
-
     return (
         <div className="app">
             <div className="search">
@@ -48,7 +47,7 @@ let celcia = (+(data?.main.feels_like) - 32) / 1.8000
                     type={'text'}
                     placeholder={'Enter Location'}
                     value={location} onChange={changeInput}
-                onKeyPress={searchLocation}
+                    onKeyPress={searchLocation}
                 />
             </div>
             <div className="container">
@@ -57,27 +56,27 @@ let celcia = (+(data?.main.feels_like) - 32) / 1.8000
                     <div className="location">
                         {data ? <p>{data?.name}</p> : ''}
                     </div>
-                    <div className="temp">
-                        <h1>{celcia}°C</h1>
-                    </div>
-                    <div className="description">
+                    {data ?   <div className="temp">
+                        <h1>{(((+(data?.main.feels_like) - 32) / 1.8000)/10).toFixed()}°C</h1>
+                    </div>:''}
+                    {data ?   <div className="description">
                         <p>Clouds</p>
-                    </div>
+                    </div> :''}
                 </div>
-                <div className="bottom">
+                {data ?   <div className="bottom">
                     <div className="feels">
-                        <p>{celcia}°C</p>
-                        <p>Feels Like</p>
+                        <p>{(((+(data?.main.feels_like) - 32) / 1.8000)/10).toFixed()}°C</p>
+                         <p>Feels Like</p>
                     </div>
                     <div className="humidity">
-                        <p>{data?.main.humidity}%</p>
-                        <p>Humidity</p>
+                       <p>{data?.main.humidity}%</p>
+                     <p>Humidity</p>
                     </div>
-                    <div className="wind">
+                     <div className="wind">
                         <p>{data?.wind.speed} MPH</p>
                         <p>Winds</p>
                     </div>
-                </div>
+                </div>: ''}
             </div>
 
         </div>
