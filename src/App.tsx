@@ -1,7 +1,8 @@
 import React, {ChangeEvent, useState} from 'react';
 import axios from 'axios'
-/*import useDebounce from './use-debounce';*/
 import './index.css';
+
+
 
 type dataResponce = {
     base: string,
@@ -27,6 +28,8 @@ type dataResponce = {
 }
 
 function App() {
+
+
     const [data, setData] = useState<dataResponce | null>(null)
     const [location, setLocation] = useState('')
     const apiKey = '24cd562bc08de33b11c7e4e4c48459bd'
@@ -45,6 +48,8 @@ function App() {
             })
         }
     }
+
+    console.log('lkdk')
     return (
         <div className="app">
             <div className="search">
