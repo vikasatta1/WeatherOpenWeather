@@ -1,5 +1,6 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import axios from 'axios'
+/*import useDebounce from './use-debounce';*/
 import './index.css';
 
 type dataResponce = {
@@ -9,7 +10,14 @@ type dataResponce = {
     coord: { lon: number, lat: number },
     dt: number,
     id: number,
-    main: any,
+    main: {
+        feels_like: number,
+        humidity: number,
+        pressure: number,
+        temp: number,
+        temp_max: number,
+        temp_min: number
+    },
     name: string,
     sys: { type: number, id: number, country: string, sunrise: number, sunset: number },
     timezone: number,
@@ -19,8 +27,6 @@ type dataResponce = {
 }
 
 function App() {
-
-    const [cityName, setCityName] = useState('')
     const [data, setData] = useState<dataResponce | null>(null)
     const [location, setLocation] = useState('')
     const apiKey = '24cd562bc08de33b11c7e4e4c48459bd'
@@ -39,7 +45,6 @@ function App() {
             })
         }
     }
-
     return (
         <div className="app">
             <div className="search">
@@ -57,23 +62,23 @@ function App() {
                         {data ? <p>{data?.name}</p> : ''}
                     </div>
                     {data ?   <div className="temp">
-                        <h1>{(((+(data?.main.feels_like) - 32) / 1.8000)/10).toFixed()}°C</h1>
+                        <h1>{((data?.main.temp) - 273).toFixed()}°C</h1>
                     </div>:''}
-                    {data ?   <div className="description">
-                        <p>Clouds</p>
-                    </div> :''}
+                    {data ?  <div className="description">
+                          <p> {data.weather[0].main}</p>
+                    </div>:''}
                 </div>
                 {data ?   <div className="bottom">
-                    <div className="feels">
-                        <p>{(((+(data?.main.feels_like) - 32) / 1.8000)/10).toFixed()}°C</p>
+                    <div className="feels" >
+                        <p className={'bold'}>{(+(data?.main.temp) - 273).toFixed()}°C</p>
                          <p>Feels Like</p>
                     </div>
                     <div className="humidity">
-                       <p>{data?.main.humidity}%</p>
+                       <p className={'bold'}>{data?.main.humidity}%</p>
                      <p>Humidity</p>
                     </div>
                      <div className="wind">
-                        <p>{data?.wind.speed} MPH</p>
+                        <p className={'bold'}>{data?.wind.speed} MPH</p>
                         <p>Winds</p>
                     </div>
                 </div>: ''}
