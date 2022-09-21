@@ -49,7 +49,7 @@ function App() {
         }
     }
 
-    console.log('lkdk')
+
     return (
         <div className="app">
             <div className="search">
